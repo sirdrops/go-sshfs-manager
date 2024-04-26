@@ -1,7 +1,9 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io"
 	"os"
 )
 
@@ -28,12 +30,20 @@ func main() {
 		fmt.Println("File is ready to go")
 		defer f.Close()
 	}
+	byteValue, _ := io.ReadAll(f)
+	var result map[string]interface{}
+	json.Unmarshal([]byte(byteValue), &result)
 
-	b1 := make([]byte, 1000)
-	contents, err := f.Read(b1)
-	if err != nil {
-		fmt.Println("Cos zlego sie stanelo")
-	} else {
-		fmt.Printf("%s", string(b1[:contents]))
-	}
+	// fmt.Println(result["servers"])
+	// servers := result["servers"].(map[string]interface{})
+	servers := result["servers"].([]interface{})
+	fmt.Println(servers)
+
+	// b1 := make([]byte, 1000)
+	// contents, err := f.Read(b1)
+	// if err != nil {
+	// 	fmt.Println("Cos zlego sie stanelo")
+	// } else {
+	// 	fmt.Printf("%s", string(b1[:contents]))
+	// }
 }
