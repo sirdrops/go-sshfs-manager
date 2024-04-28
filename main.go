@@ -20,7 +20,8 @@ type Server struct {
 
 var servers Servers
 
-func checkFileCreateIfNotExist(path string) (*os.File, error) {
+// Try to open file, if file doesn't exist try to create new one
+func openFileCreateIfNotExist(path string) (*os.File, error) {
 	f, err := os.Open(path)
 
 	if err != nil {
@@ -35,7 +36,7 @@ func checkFileCreateIfNotExist(path string) (*os.File, error) {
 
 func main() {
 
-	f, err := checkFileCreateIfNotExist(filepath)
+	f, err := openFileCreateIfNotExist(filepath)
 	if err != nil {
 		fmt.Println("Could not create file")
 	} else {
@@ -58,7 +59,7 @@ func main() {
 	choice := fmt.Sprintf("%s@%s\n", servers.Servers[input].User, servers.Servers[input].Address)
 	fmt.Println(choice)
 
-	cmdStruct := exec.Command("echo", "hello")
+	cmdStruct := exec.Command("echo", "Tutaj bedzie komenda do sshfs most likely")
 	out, err := cmdStruct.Output()
 	if err != nil {
 		fmt.Println(err)
