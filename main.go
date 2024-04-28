@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"os/exec"
 )
 
 var filepath string = "config.json"
@@ -23,6 +24,7 @@ func checkFileCreateIfNotExist(path string) (*os.File, error) {
 	f, err := os.Open(path)
 
 	if err != nil {
+		fmt.Println("Could not open file, trying to create new one")
 		f, err := os.Create(path)
 		if err != nil {
 			return f, err
@@ -35,29 +37,33 @@ func main() {
 
 	f, err := checkFileCreateIfNotExist(filepath)
 	if err != nil {
-		fmt.Println("Could not open or create file")
+		fmt.Println("Could not create file")
 	} else {
 		fmt.Println("File is ready to go")
 		defer f.Close()
 	}
 	byteValue, _ := io.ReadAll(f)
-	// var result map[string]interface{}
-	// json.Unmarshal([]byte(byteValue), &result)
 	json.Unmarshal(byteValue, &servers)
-	fmt.Println(len(servers.Servers))
 
 	for key, value := range servers.Servers {
-		fmt.Println(key, value)
+		// fmt.Println(key, value)
+		fmt.Printf("%d %s\n", key, value.Address)
 	}
-	// Trzeba bedzie zrobic strukta chyba jednak
-	// servers := result["servers"].([]interface{})
-	// fmt.Println(servers)
-	// for key, value := range servers {
-	// 	fmt.Println("key:", key, "value", value)
-	// fmt.Println(servers[key])
-	// }
-	var input string
+	var input int
+	fmt.Print("Please enter number of server: ")
 	fmt.Scan(&input)
-	fmt.Println("Your input is:", input)
 
+	// fmt.Println(servers.Servers[0].Address)
+	// fmt.Println(servers.Servers[input].Address)
+	choice := fmt.Sprintf("%s@%s\n", servers.Servers[input].User, servers.Servers[input].Address)
+	fmt.Println(choice)
+
+	cmdStruct := exec.Command("echo", "hello")
+	out, err := cmdStruct.Output()
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Print(string(out))
+	// this will be probably a string combo to use sshfs hope it will work with remote keygen
+	// "sudo", "sshfs", "-o", "allow_other,default_permission", choice + "//home/" + servers.Servers[input].User + "/"
 }
