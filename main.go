@@ -56,5 +56,8 @@ func main() {
 	// 	fmt.Println("key:", key, "value", value)
 	// fmt.Println(servers[key])
 	// }
+	var input string
+	fmt.Scan(&input)
+	fmt.Println("Your input is:", input)
 
 }
