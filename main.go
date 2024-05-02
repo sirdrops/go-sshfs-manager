@@ -66,5 +66,5 @@ func main() {
 	}
 	fmt.Print(string(out))
 	// this will be probably a string combo to use sshfs hope it will work with remote keygen
-	// "sudo", "sshfs", "-o", "allow_other,default_permission", choice + "//home/" + servers.Servers[input].User + "/"
+	// "sudo", "sshfs", "-o", "allow_other,default_permission", choice + "//home/" + servers.Servers[input].User + "/" + "remote_server" <<< tutaj pewnie raczej jakas sciezka dodatkowa
 }
