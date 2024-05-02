@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"os/exec"
+	"strings"
 )
 
 var filepath string = "config.json"
@@ -58,13 +59,17 @@ func main() {
 	// fmt.Println(servers.Servers[input].Address)
 	choice := fmt.Sprintf("%s@%s\n", servers.Servers[input].User, servers.Servers[input].Address)
 	fmt.Println(choice)
+	sshfsString := fmt.Sprintf("sudo sshfs -o allow_other,default_permission %s//home/%s/ /path/to_remote_folder/", strings.TrimRight(choice, "\n"), servers.Servers[input].User)
 
-	cmdStruct := exec.Command("echo", "Tutaj bedzie komenda do sshfs most likely")
+	// cmdStruct := exec.Command("echo", "Tutaj bedzie komenda do sshfs most likely")
+	// cmdStruct := exec.Command("echo", choice)
+	cmdStruct := exec.Command("pwd")
 	out, err := cmdStruct.Output()
 	if err != nil {
 		fmt.Println(err)
 	}
 	fmt.Print(string(out))
+	fmt.Println(sshfsString)
 	// this will be probably a string combo to use sshfs hope it will work with remote keygen
 	// "sudo", "sshfs", "-o", "allow_other,default_permission", choice + "//home/" + servers.Servers[input].User + "/" + "remote_server" <<< tutaj pewnie raczej jakas sciezka dodatkowa
 }
