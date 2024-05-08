@@ -28,14 +28,16 @@ var servers Servers
 
 // Try to open file, if file doesn't exist try to create new one
 func openFileCreateIfNotExist(path string) (*os.File, error) {
-	f, err := os.Open(path)
+	// f, err := os.Open(path)
+	f, err := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 
 	if err != nil {
-		fmt.Println("Could not open file, trying to create new one")
-		f, err := os.Create(path)
-		if err != nil {
-			return f, err
-		}
+		return f, err
+		// fmt.Println("Could not open file, trying to create new one")
+		// f, err := os.Create(path)
+		// if err != nil {
+		// 	return f, err
+		// }
 	}
 	return f, nil
 }
