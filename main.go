@@ -12,8 +12,9 @@ import (
 
 var filepath string = "config.json"
 
-var logFile, _ = os.Create("my_log.log")
-var mylog = log.New(logFile, "", 0)
+// var logFile, _ = os.Create("my_log.log")
+var logFile, _ = os.OpenFile("my_log.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+var mylog = log.New(logFile, "", log.Lshortfile|log.LstdFlags)
 
 type Servers struct {
 	Servers []Server `json:"servers"`
