@@ -4,12 +4,16 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"os"
 	"os/exec"
 	"strings"
 )
 
 var filepath string = "config.json"
+
+var logFile, _ = os.Create("my_log.log")
+var mylog = log.New(logFile, "", 0)
 
 type Servers struct {
 	Servers []Server `json:"servers"`
@@ -54,6 +58,7 @@ func main() {
 	var input int
 	fmt.Print("Please enter number of server: ")
 	fmt.Scan(&input)
+	mylog.Println(input)
 
 	// fmt.Println(servers.Servers[0].Address)
 	// fmt.Println(servers.Servers[input].Address)
